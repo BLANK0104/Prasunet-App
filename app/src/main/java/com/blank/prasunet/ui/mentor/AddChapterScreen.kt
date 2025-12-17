@@ -27,6 +27,11 @@ fun AddChapterScreen(
     var imageUrl by remember { mutableStateOf("") }
     var videoUrl by remember { mutableStateOf("") }
 
+    // Load chapters first to calculate sequence
+    LaunchedEffect(courseId) {
+        viewModel.loadChapters(courseId)
+    }
+
     // Calculate next sequence order
     val nextSequenceOrder = remember(chaptersState) {
         if (chaptersState is ChaptersUiState.Success) {

@@ -104,26 +104,64 @@ fun ChapterViewerScreen(
                 }
 
                 // Content
-                Text(
-                    text = chapter.content,
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                if (chapter.content.isNotBlank()) {
+                    Text(
+                        text = chapter.content,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                } else {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
+                        )
+                    ) {
+                        Text(
+                            text = "No text content available for this chapter.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
+                }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(32.dp))
 
-                // Mark as complete button
+                Divider(modifier = Modifier.padding(vertical = 16.dp))
+
+                // Mark as complete button - ALWAYS SHOW IF NOT COMPLETED
                 if (!chapter.is_completed) {
+                    Text(
+                        text = "Have you finished reading this chapter?",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 12.dp)
+                    )
                     Button(
                         onClick = {
                             viewModel.markChapterComplete(chapterId, courseId)
                             navController.popBackStack()
                         },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        )
                     ) {
                         Icon(Icons.Default.Check, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Mark as Complete")
+                        Text(
+                            "Mark Chapter as Complete",
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Marking as complete will unlock the next chapter",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 } else {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
