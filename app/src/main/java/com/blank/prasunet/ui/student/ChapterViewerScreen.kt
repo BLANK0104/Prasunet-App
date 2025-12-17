@@ -31,6 +31,11 @@ fun ChapterViewerScreen(
     val chaptersState by viewModel.chaptersState.collectAsState()
     val context = LocalContext.current
 
+    // Load chapters when screen opens
+    LaunchedEffect(courseId) {
+        viewModel.loadChapters(courseId)
+    }
+
     // Find the current chapter
     val chapter = remember(chaptersState, chapterId) {
         if (chaptersState is ChaptersUiState.Success) {
@@ -50,15 +55,39 @@ fun ChapterViewerScreen(
             )
         }
     ) { paddingValues ->
-        if (chapter == null) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                Text("Chapter not found")
+        when {
+            chaptersState is ChaptersUiState.Loading -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    contentAlignment = androidx.compose.ui.Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
             }
-        } else {
+            chapter == null -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues),
+                    contentAlignment = androidx.compose.ui.Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Chapter not found",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        TextButton(onClick = { navController.popBackStack() }) {
+                            Text("Go Back")
+                        }
+                    }
+                }
+            }
+            else -> {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -189,6 +218,7 @@ fun ChapterViewerScreen(
                     }
                 }
             }
+        }
         }
     }
 }

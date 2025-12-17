@@ -2,7 +2,25 @@
 
 ## ✅ Issues Resolved
 
-### 1. ✅ **Course Assignment Working**
+### 1. ✅ **"Chapter Not Found" Error - FIXED**
+**Problem**: When students clicked on a chapter, they saw "Chapter not found" error  
+**Root Cause**: ChapterViewerScreen wasn't loading chapters before trying to display them
+
+**Solution**: 
+- Added `LaunchedEffect` to load chapters when screen opens
+- Added loading state while chapters are being fetched
+- Improved error UI with "Go Back" button
+
+**How it works now**:
+1. Student clicks on a chapter
+2. Screen shows loading indicator
+3. Chapters are fetched from API
+4. Chapter content displays properly
+5. If chapter still not found, shows clear error with back button
+
+---
+
+### 2. ✅ **Course Assignment Working**
 **Problem**: "Insufficient permissions" when assigning courses  
 **Solution**: 
 - Added `GET /mentor/students` API endpoint
@@ -18,7 +36,7 @@
 
 ---
 
-### 2. ✅ **Chapter Sequence Auto-Increment Fixed**
+### 3. ✅ **Chapter Sequence Auto-Increment Fixed**
 **Problem**: "Chapter with this sequence already exists" error  
 **Solution**: Added `LaunchedEffect` to load existing chapters before calculating next sequence
 
@@ -30,7 +48,7 @@
 
 ---
 
-### 3. ✅ **Chapter Content Display Fixed**
+### 4. ✅ **Chapter Content Display Fixed**
 **Problem**: Students seeing "No content" when opening chapters  
 **Solution**: Added proper handling for empty/null content
 
@@ -41,7 +59,7 @@
 
 ---
 
-### 4. ✅ **Mark Chapter as Complete - PROMINENT UI**
+### 5. ✅ **Mark Chapter as Complete - PROMINENT UI**
 **Problem**: Students couldn't find how to mark chapters complete  
 **Solution**: Made the complete button **MUCH more prominent**
 
@@ -66,7 +84,7 @@ Marking as complete will unlock the next chapter
 
 ---
 
-### 5. ✅ **Certificate Download - Already Implemented**
+### 6. ✅ **Certificate Download - Already Implemented**
 **Status**: Working perfectly!
 
 **How it works**:
