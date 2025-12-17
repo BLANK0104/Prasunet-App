@@ -143,12 +143,43 @@ fun CourseDetailScreen(
                                         }
 
                                         if (certificateState is CertificateUiState.Error) {
-                                            Spacer(modifier = Modifier.height(8.dp))
-                                            Text(
-                                                text = (certificateState as CertificateUiState.Error).message,
-                                                color = MaterialTheme.colorScheme.error,
-                                                style = MaterialTheme.typography.bodySmall
-                                            )
+                                            Spacer(modifier = Modifier.height(12.dp))
+                                            Card(
+                                                modifier = Modifier.fillMaxWidth(),
+                                                colors = CardDefaults.cardColors(
+                                                    containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.3f)
+                                                )
+                                            ) {
+                                                Column(modifier = Modifier.padding(12.dp)) {
+                                                    Text(
+                                                        text = "❌ Certificate Generation Failed",
+                                                        style = MaterialTheme.typography.titleSmall,
+                                                        fontWeight = FontWeight.Bold,
+                                                        color = MaterialTheme.colorScheme.error
+                                                    )
+                                                    Spacer(modifier = Modifier.height(4.dp))
+                                                    Text(
+                                                        text = (certificateState as CertificateUiState.Error).message,
+                                                        style = MaterialTheme.typography.bodySmall,
+                                                        color = MaterialTheme.colorScheme.onErrorContainer
+                                                    )
+                                                    Spacer(modifier = Modifier.height(8.dp))
+                                                    Text(
+                                                        text = "This is a backend server issue. Please contact your administrator or try again later.",
+                                                        style = MaterialTheme.typography.bodySmall,
+                                                        color = MaterialTheme.colorScheme.onErrorContainer
+                                                    )
+                                                    Spacer(modifier = Modifier.height(8.dp))
+                                                    TextButton(
+                                                        onClick = {
+                                                            viewModel.resetCertificateState()
+                                                            viewModel.downloadCertificate(courseId)
+                                                        }
+                                                    ) {
+                                                        Text("Try Again")
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
