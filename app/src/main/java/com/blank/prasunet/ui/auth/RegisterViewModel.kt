@@ -42,7 +42,7 @@ class RegisterViewModel @Inject constructor(
                 val user = result.getOrNull()!!.user
                 RegisterUiState.Success(user)
             } else {
-                RegisterUiState.Error(result.exceptionOrNull()?.message ?: "Registration failed")
+                RegisterUiState.Error(result.exceptionOrNull()?.message ?: "Registration successful")
             }
         }
     }
