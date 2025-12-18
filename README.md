@@ -1,32 +1,32 @@
-# 🎓 Prasunet Internship LMS - Android App
+#  Prasunet Internship LMS - Android App
 
 A complete mobile Learning Management System for internship programs with role-based access control (Student/Mentor/Admin), built with **Kotlin** and **Jetpack Compose**.
 
-## 📱 Features
+##  Features
 
-### 👨‍🎓 Student Features
-- ✅ Self-registration and secure login
-- ✅ View assigned courses with progress tracking
-- ✅ Sequential chapter access (locked/unlocked progression)
-- ✅ Rich content viewing (text, images, video links)
-- ✅ Mark chapters as complete
-- ✅ Real-time progress tracking
-- ✅ Certificate download (coming soon)
+###  Student Features
+-  Self-registration and secure login
+-  View assigned courses with progress tracking
+-  Sequential chapter access (locked/unlocked progression)
+-  Rich content viewing (text, images, video links)
+-  Mark chapters as complete
+-  Real-time progress tracking
+-  Certificate download (coming soon)
 
-### 👨‍🏫 Mentor Features  
-- ✅ Create and manage courses
-- ✅ Add chapters with content, images, and video URLs
-- ✅ View enrolled students and their progress
-- ✅ Track completion rates
-- 📝 Assign courses to students (via admin/backend)
+###  Mentor Features  
+-  Create and manage courses
+-  Add chapters with content, images, and video URLs
+-  View enrolled students and their progress
+-  Track completion rates
+-  Assign courses to students (via admin/backend)
 
-### 👑 Admin Features
-- ✅ Approve/reject mentor registrations
-- ✅ View platform-wide statistics
-- ✅ Monitor users, courses, and enrollments
-- ✅ Platform oversight and management
+###  Admin Features
+-  Approve/reject mentor registrations
+-  View platform-wide statistics
+-  Monitor users, courses, and enrollments
+-  Platform oversight and management
 
-## 🏗️ Architecture
+##  Architecture
 
 - **Language**: Kotlin
 - **UI Framework**: Jetpack Compose
@@ -37,7 +37,7 @@ A complete mobile Learning Management System for internship programs with role-b
 - **Image Loading**: Coil
 - **Navigation**: Navigation Compose
 
-## 🚀 Tech Stack
+##  Tech Stack
 
 ```
 ├── Data Layer
@@ -57,7 +57,7 @@ A complete mobile Learning Management System for internship programs with role-b
     └── Navigation (NavGraph)
 ```
 
-## 📦 Setup & Installation
+##  Setup & Installation
 
 ### Prerequisites
 - Android Studio Hedgehog or later
@@ -94,7 +94,7 @@ The app connects to: **https://prasunet.vercel.app/api**
    ./gradlew installDebug
    ```
 
-## 🔐 Authentication Flow
+##  Authentication Flow
 
 1. **Register**: Users can register as Student or Mentor
    - Students: Immediate access after registration
@@ -104,7 +104,7 @@ The app connects to: **https://prasunet.vercel.app/api**
 2. **Login**: Email/password authentication with JWT tokens
 3. **Auto-login**: Secure token storage for persistent sessions
 
-## 📱 App Structure
+##  App Structure
 
 ```
 app/src/main/java/com/blank/prasunet/
@@ -165,7 +165,7 @@ app/src/main/java/com/blank/prasunet/
 └── PrasunetApplication.kt                # Hilt application class
 ```
 
-## 🎨 UI Screenshots
+##  UI Screenshots
 
 ### Student Flow
 1. **Login Screen**: Email/password authentication
@@ -183,7 +183,7 @@ app/src/main/java/com/blank/prasunet/
 1. **Admin Dashboard**: Platform statistics
 2. **Pending Mentors**: Approve/reject requests
 
-## 🔧 Configuration
+##  Configuration
 
 ### API Base URL
 Located in `app/build.gradle.kts`:
@@ -198,7 +198,7 @@ val PrimaryBlue = Color(0xFF2196F3)
 val SecondaryGreen = Color(0xFF4CAF50)
 ```
 
-## 📝 API Integration
+##  API Integration
 
 All API calls are handled through Retrofit interfaces:
 
@@ -213,14 +213,14 @@ suspend fun createCourse(@Body request: CreateCourseRequest): Response<CourseCre
 suspend fun approveMentor(@Path("mentorId") mentorId: String, @Body request: ApproveMentorRequest): Response<ApiResponse<String>>
 ```
 
-## 🔒 Security
+##  Security
 
 - **Encrypted Storage**: JWT tokens stored using `EncryptedSharedPreferences`
 - **HTTPS Only**: All API calls use secure HTTPS connections
 - **Token Injection**: Automatic Bearer token injection via OkHttp interceptor
 - **Role-Based Access**: Server-side validation of user roles
 
-## 🧪 Testing
+##  Testing
 
 ### Run Unit Tests
 ```bash
@@ -232,7 +232,7 @@ suspend fun approveMentor(@Path("mentorId") mentorId: String, @Body request: App
 ./gradlew connectedAndroidTest
 ```
 
-## 📚 Dependencies
+##  Dependencies
 
 Key dependencies (see `gradle/libs.versions.toml` for versions):
 
@@ -245,7 +245,7 @@ Key dependencies (see `gradle/libs.versions.toml` for versions):
 - **Security Crypto**: Encrypted data storage
 - **Material 3**: Design system components
 
-## 🚀 Building for Production
+##  Building for Production
 
 ### Generate Release APK
 ```bash
@@ -274,20 +274,4 @@ Key dependencies (see `gradle/libs.versions.toml` for versions):
    ```bash
    ./gradlew assembleRelease
    ```
-
-## 📄 License
-
-This project is part of the Prasunet internship program.
-
-## 👥 Contributors
-
-Built with ❤️ by the Prasunet team
-
-## 📞 Support
-
-For issues or questions, please contact the development team or create an issue in the repository.
-
----
-
-**Note**: Ensure the backend API is running and accessible before using the app. Default backend URL: `https://prasunet.vercel.app/api`
 
