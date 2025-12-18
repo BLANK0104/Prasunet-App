@@ -31,6 +31,15 @@ class AdminViewModel @Inject constructor(
     private val _allCoursesState = MutableStateFlow<AllCoursesUiState>(AllCoursesUiState.Loading)
     val allCoursesState: StateFlow<AllCoursesUiState> = _allCoursesState.asStateFlow()
 
+    private val _enrollmentsState = MutableStateFlow<EnrollmentsUiState>(EnrollmentsUiState.Loading)
+    val enrollmentsState: StateFlow<EnrollmentsUiState> = _enrollmentsState.asStateFlow()
+
+    private val _certificatesState = MutableStateFlow<CertificatesUiState>(CertificatesUiState.Loading)
+    val certificatesState: StateFlow<CertificatesUiState> = _certificatesState.asStateFlow()
+
+    private val _operationState = MutableStateFlow<OperationUiState>(OperationUiState.Idle)
+    val operationState: StateFlow<OperationUiState> = _operationState.asStateFlow()
+
     init {
         loadStatistics()
         loadPendingMentors()
@@ -119,6 +128,125 @@ class AdminViewModel @Inject constructor(
         }
     }
 
+    fun updateUser(userId: String, fullName: String?, email: String?) {
+        viewModelScope.launch {
+            _operationState.value = OperationUiState.Loading
+            val result = adminRepository.updateUser(userId, fullName, email)
+            _operationState.value = if (result.isSuccess) {
+                loadAllUsers()
+                OperationUiState.Success("User updated successfully")
+            } else {
+                OperationUiState.Error(result.exceptionOrNull()?.message ?: "Failed to update user")
+            }
+        }
+    }
+
+    fun deleteCourse(courseId: String) {
+        viewModelScope.launch {
+            _operationState.value = OperationUiState.Loading
+            val result = adminRepository.deleteCourse(courseId)
+            _operationState.value = if (result.isSuccess) {
+                loadAllCourses()
+                loadStatistics()
+                val (message, affectedStudents) = result.getOrNull()!!
+                OperationUiState.Success("$message (${affectedStudents ?: 0} students affected)")
+            } else {
+                OperationUiState.Error(result.exceptionOrNull()?.message ?: "Failed to delete course")
+            }
+        }
+    }
+
+    fun updateCourse(courseId: String, title: String?, description: String?) {
+        viewModelScope.launch {
+            _operationState.value = OperationUiState.Loading
+            val result = adminRepository.updateCourse(courseId, title, description)
+            _operationState.value = if (result.isSuccess) {
+                loadAllCourses()
+                OperationUiState.Success("Course updated successfully")
+            } else {
+                OperationUiState.Error(result.exceptionOrNull()?.message ?: "Failed to update course")
+            }
+        }
+    }
+
+    fun loadEnrollments() {
+        viewModelScope.launch {
+            _enrollmentsState.value = EnrollmentsUiState.Loading
+            val result = adminRepository.getAllEnrollments()
+            _enrollmentsState.value = if (result.isSuccess) {
+                val enrollments = result.getOrNull()!!
+                if (enrollments.isEmpty()) {
+                    EnrollmentsUiState.Empty
+                } else {
+                    EnrollmentsUiState.Success(enrollments)
+                }
+            } else {
+                EnrollmentsUiState.Error(result.exceptionOrNull()?.message ?: "Failed to load enrollments")
+            }
+        }
+    }
+
+    fun deleteEnrollment(enrollmentId: String) {
+        viewModelScope.launch {
+            _operationState.value = OperationUiState.Loading
+            val result = adminRepository.deleteEnrollment(enrollmentId)
+            _operationState.value = if (result.isSuccess) {
+                loadEnrollments()
+                loadStatistics()
+                OperationUiState.Success("Enrollment deleted successfully")
+            } else {
+                OperationUiState.Error(result.exceptionOrNull()?.message ?: "Failed to delete enrollment")
+            }
+        }
+    }
+
+    fun resetEnrollmentProgress(enrollmentId: String) {
+        viewModelScope.launch {
+            _operationState.value = OperationUiState.Loading
+            val result = adminRepository.resetEnrollmentProgress(enrollmentId)
+            _operationState.value = if (result.isSuccess) {
+                loadEnrollments()
+                OperationUiState.Success("Progress reset successfully")
+            } else {
+                OperationUiState.Error(result.exceptionOrNull()?.message ?: "Failed to reset progress")
+            }
+        }
+    }
+
+    fun loadCertificates() {
+        viewModelScope.launch {
+            _certificatesState.value = CertificatesUiState.Loading
+            val result = adminRepository.getAllCertificates()
+            _certificatesState.value = if (result.isSuccess) {
+                val certificates = result.getOrNull()!!
+                if (certificates.isEmpty()) {
+                    CertificatesUiState.Empty
+                } else {
+                    CertificatesUiState.Success(certificates)
+                }
+            } else {
+                CertificatesUiState.Error(result.exceptionOrNull()?.message ?: "Failed to load certificates")
+            }
+        }
+    }
+
+    fun revokeCertificate(certificateId: String) {
+        viewModelScope.launch {
+            _operationState.value = OperationUiState.Loading
+            val result = adminRepository.revokeCertificate(certificateId)
+            _operationState.value = if (result.isSuccess) {
+                loadCertificates()
+                OperationUiState.Success("Certificate revoked successfully")
+            } else {
+                OperationUiState.Error(result.exceptionOrNull()?.message ?: "Failed to revoke certificate")
+            }
+        }
+    }
+
+    fun resetOperationState() {
+        _operationState.value = OperationUiState.Idle
+    }
+
     fun logout() {
         authRepository.logout()
     }
@@ -151,3 +279,23 @@ sealed class AllCoursesUiState {
     data class Error(val message: String) : AllCoursesUiState()
 }
 
+sealed class EnrollmentsUiState {
+    object Loading : EnrollmentsUiState()
+    object Empty : EnrollmentsUiState()
+    data class Success(val enrollments: List<com.blank.prasunet.data.models.EnrollmentDetail>) : EnrollmentsUiState()
+    data class Error(val message: String) : EnrollmentsUiState()
+}
+
+sealed class CertificatesUiState {
+    object Loading : CertificatesUiState()
+    object Empty : CertificatesUiState()
+    data class Success(val certificates: List<com.blank.prasunet.data.models.CertificateDetail>) : CertificatesUiState()
+    data class Error(val message: String) : CertificatesUiState()
+}
+
+sealed class OperationUiState {
+    object Idle : OperationUiState()
+    object Loading : OperationUiState()
+    data class Success(val message: String) : OperationUiState()
+    data class Error(val message: String) : OperationUiState()
+}

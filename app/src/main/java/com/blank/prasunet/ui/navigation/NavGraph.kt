@@ -9,6 +9,11 @@ import androidx.navigation.navArgument
 import com.blank.prasunet.ui.admin.AdminHomeScreen
 import com.blank.prasunet.ui.admin.AllCoursesScreen
 import com.blank.prasunet.ui.admin.AllUsersScreen
+import com.blank.prasunet.ui.admin.EnhancedAdminDashboard
+import com.blank.prasunet.ui.admin.EnhancedAllUsersScreen
+import com.blank.prasunet.ui.admin.EnhancedAllCoursesScreen
+import com.blank.prasunet.ui.admin.EnrollmentsManagementScreen
+import com.blank.prasunet.ui.admin.CertificatesManagementScreen
 import com.blank.prasunet.ui.auth.LoginScreen
 import com.blank.prasunet.ui.auth.RegisterScreen
 import com.blank.prasunet.ui.mentor.AddChapterScreen
@@ -105,17 +110,25 @@ fun NavGraph(
             ViewStudentsScreen(navController, courseId)
         }
 
-        // Admin screens
+        // Admin screens - Enhanced with full control
         composable(Screen.AdminHome.route) {
-            AdminHomeScreen(navController)
+            EnhancedAdminDashboard(navController)
         }
 
         composable(Screen.AllUsers.route) {
-            AllUsersScreen(navController)
+            EnhancedAllUsersScreen(navController)
         }
 
         composable(Screen.AllCourses.route) {
-            AllCoursesScreen(navController)
+            EnhancedAllCoursesScreen(navController)
+        }
+
+        composable(Screen.Enrollments.route) {
+            EnrollmentsManagementScreen(navController)
+        }
+
+        composable(Screen.Certificates.route) {
+            CertificatesManagementScreen(navController)
         }
     }
 }

@@ -77,7 +77,7 @@ fun StudentHomeScreen(
                                 title = course.title,
                                 description = course.description,
                                 progress = course.progress_percentage,
-                                totalChapters = course.total_chapters,
+                                totalChapters = course.total_chapters.toIntOrNull() ?: 0,
                                 completedChapters = course.completed_chapters,
                                 onClick = {
                                     navController.navigate(Screen.CourseDetail.createRoute(course.id))

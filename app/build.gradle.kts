@@ -95,6 +95,11 @@ dependencies {
     // Coil (Image Loading)
     implementation(libs.coil.compose)
 
+    // Vico Charts (Modern charting library)
+    implementation("com.patrykandpatrick.vico:compose-m3:1.13.1")
+    implementation("com.patrykandpatrick.vico:core:1.13.1")
+    implementation("com.patrykandpatrick.vico:compose:1.13.1")
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

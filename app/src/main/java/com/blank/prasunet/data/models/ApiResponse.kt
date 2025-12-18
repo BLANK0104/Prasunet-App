@@ -34,3 +34,21 @@ data class AvailableStudentsResponse(
     val students: List<User>
 )
 
+data class EnrollmentsResponse(
+    val enrollments: List<EnrollmentDetail>
+)
+
+data class CertificatesResponse(
+    val certificates: List<CertificateDetail>
+)
+
+data class CourseAnalyticsResponse(
+    val enrollments: Int,
+    val completions: Int,
+    val avgProgress: Double
+)
+
+data class MessageResponse(
+    val message: String,
+    val affectedStudents: Int? = null
+)

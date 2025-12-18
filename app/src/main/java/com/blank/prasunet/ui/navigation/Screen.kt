@@ -35,5 +35,7 @@ sealed class Screen(val route: String) {
     object PendingMentors : Screen("pending_mentors")
     object AllUsers : Screen("all_users")
     object AllCourses : Screen("all_courses")
+    object Enrollments : Screen("enrollments")
+    object Certificates : Screen("certificates")
 }
 

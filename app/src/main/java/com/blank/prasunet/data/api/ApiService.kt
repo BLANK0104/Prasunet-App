@@ -110,5 +110,66 @@ interface ApiService {
 
     @GET("admin/courses")
     suspend fun getAllCourses(): Response<CoursesResponse>
+
+    // ==================== Enhanced Admin Endpoints ====================
+
+    // User Management
+    @PUT("admin/users/{userId}")
+    suspend fun updateUser(
+        @Path("userId") userId: String,
+        @Body request: UpdateUserRequest
+    ): Response<ApiResponse<User>>
+
+    // Course Management
+    @DELETE("admin/courses/{courseId}")
+    suspend fun deleteCourse(
+        @Path("courseId") courseId: String
+    ): Response<MessageResponse>
+
+    @PUT("admin/courses/{courseId}")
+    suspend fun updateCourse(
+        @Path("courseId") courseId: String,
+        @Body request: UpdateCourseRequest
+    ): Response<ApiResponse<Course>>
+
+    @GET("admin/courses/{courseId}/analytics")
+    suspend fun getCourseAnalytics(
+        @Path("courseId") courseId: String
+    ): Response<CourseAnalyticsResponse>
+
+    // Chapter Management
+    @PUT("admin/chapters/{chapterId}")
+    suspend fun updateChapter(
+        @Path("chapterId") chapterId: String,
+        @Body request: UpdateChapterRequest
+    ): Response<ApiResponse<Chapter>>
+
+    @DELETE("admin/chapters/{chapterId}")
+    suspend fun deleteChapter(
+        @Path("chapterId") chapterId: String
+    ): Response<MessageResponse>
+
+    // Enrollment Management
+    @GET("admin/enrollments")
+    suspend fun getAllEnrollments(): Response<EnrollmentsResponse>
+
+    @DELETE("admin/enrollments/{enrollmentId}")
+    suspend fun deleteEnrollment(
+        @Path("enrollmentId") enrollmentId: String
+    ): Response<MessageResponse>
+
+    @PUT("admin/enrollments/{enrollmentId}/reset")
+    suspend fun resetEnrollmentProgress(
+        @Path("enrollmentId") enrollmentId: String
+    ): Response<MessageResponse>
+
+    // Certificate Management
+    @GET("admin/certificates")
+    suspend fun getAllCertificates(): Response<CertificatesResponse>
+
+    @DELETE("admin/certificates/{certificateId}")
+    suspend fun revokeCertificate(
+        @Path("certificateId") certificateId: String
+    ): Response<MessageResponse>
 }
 

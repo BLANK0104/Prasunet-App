@@ -85,7 +85,7 @@ fun MentorHomeScreen(
                                 title = course.title,
                                 description = course.description,
                                 progress = 0,
-                                totalChapters = course.total_chapters,
+                                totalChapters = course.total_chapters.toIntOrNull() ?: 0,
                                 completedChapters = 0,
                                 onClick = {
                                     navController.navigate(Screen.MentorCourseDetail.createRoute(course.id))

@@ -75,7 +75,7 @@ fun AllCoursesScreen(
                                 title = course.title,
                                 description = course.description,
                                 progress = 0,
-                                totalChapters = course.total_chapters,
+                                totalChapters = course.total_chapters.toIntOrNull() ?: 0,
                                 completedChapters = 0,
                                 onClick = { /* Admin view - no navigation */ }
                             )
