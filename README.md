@@ -1,6 +1,8 @@
-#  Prasunet Internship LMS - Android App
+# 🎓 Prasunet Internship LMS - Android App
 
 A complete mobile Learning Management System for internship programs with role-based access control (Student/Mentor/Admin), built with **Kotlin** and **Jetpack Compose**.
+
+> **Custom App Icon**: Features a beautiful sun rays design with gradient teal/blue colors, representing knowledge and learning.
 
 ##  Features
 
